@@ -91,14 +91,19 @@ def generate_receipt(name, email, cart, total_cost, address):
 
 
 def validate_name(name):
-    """Validate if the name contains only alphabetic characters, spaces, hyphens, or apostrophes."""
-    return bool(re.match(r"^[a-zA-Z\s'-]+$", name))
+    """Validate if the name contains only alphabetic characters and spaces."""
+    name = name.strip()  # Remove leading/trailing spaces
+    # Name must contain at least two characters and must include a space for full names
+    return bool(re.match(r"^[A-Za-z]+( [A-Za-z]+)+$", name))
+
 
 
 def validate_email(email):
-    """Stricter email validation: checks for valid email format with a domain and TLD."""
-    # Basic pattern: local-part@domain.TLD (e.g., john.doe@example.com)
-    return bool(re.match(r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$", email))
+    """Validate email structure."""
+    email = email.strip()  # Remove leading/trailing spaces
+    # Match a valid email structure
+    return bool(re.match(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$", email)) and len(email) > 0
+
 
 
 def main():
