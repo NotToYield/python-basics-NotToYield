@@ -1,5 +1,6 @@
 # Products available in the store by category
 # Products available in the store by category
+import re
 products = {
     "IT Products": [
         ("Laptop", 1000),
@@ -90,13 +91,14 @@ def generate_receipt(name, email, cart, total_cost, address):
 
 
 def validate_name(name):
-    """Validate if the name contains only alphabetic characters and spaces."""
-    return all(x.isalpha() or x.isspace() for x in name)
+    """Validate if the name contains only alphabetic characters, spaces, hyphens, or apostrophes."""
+    return bool(re.match(r"^[a-zA-Z\s'-]+$", name))
 
 
 def validate_email(email):
-    """Simple email validation: checks if there is a '@' and a '.' after it."""
-    return "@" in email and "." in email.split('@')[-1]
+    """Stricter email validation: checks for valid email format with a domain and TLD."""
+    # Basic pattern: local-part@domain.TLD (e.g., john.doe@example.com)
+    return bool(re.match(r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$", email))
 
 
 def main():
